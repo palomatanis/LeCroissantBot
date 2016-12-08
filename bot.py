@@ -1,4 +1,5 @@
 import telebot
+from telebot import types
 import json
 import os
 # import os.path as path
@@ -27,12 +28,24 @@ def isAdmin_fromPrivate(message):
             return True
         return False
 
+def replyToQuestion(adict):
+  markup = types.ReplyKeyboardMarkup()
+  markup.row('¡SÍ')
+  markup.row('¡NO, PESADA!')
+  bot.send_message(adict, "¿Croissant?", reply_markup=markup)
+  
 
+  
+  # [bot.send_message(adict, "¿Croissant?") for adict in subscribers_list] 
+
+      
 def notificarAdictos():
   with open(adictos_a_croissants, "r+") as subscribersRaw:
       subscribers_list = json.load(subscribersRaw)
-  [bot.send_message(adict, "¿¿¿¿Croissant?????") for adict in subscribers_list]
+  [replyToQuestion(adict) for adict in subscribers_list]
+  
   return
+
 
 ### cosas de comandos
       
@@ -79,13 +92,17 @@ def send_msssg(message):
 # Horario de la panadería
 @bot.message_handler(commands=['horario'])
 def horarios(message):
-    bot.send_message(message.chat.id, "Horario de la Panadería: ... ... ... (se actualizará cuando el admin supremo recuerde mirarlo)")
+    bot.send_message(message.chat.id, "Horario de la Panadería: \n
+    Lunes - Viernes: 07:30 - 21:30\n
+    Sábados: 09:00 - 16:00\n
+    Domingos y festivos: 09:00 - 21:00\n")
 
   
 # Ya se verá si se implementa esto algún día, por ahora supongo que nadie querrá salir de la lista nunca.    
 @bot.message_handler(commands=['unsubscribe'])
 def send_goodbye(message):
-    bot.send_message(message.chat.id, "Los croissants no te echarán de menos")
+    bot.send_message(message.chat.id, "Los croissants no te echarán de menos\n\n
+    (de todas maneras esta función no está implementada..ups)")
 
 
 # Cuando un admin va a ir a la Panadería, esto notifica a todos los suscriptores.
