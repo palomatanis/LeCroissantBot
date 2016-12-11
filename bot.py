@@ -19,6 +19,11 @@ with open('./data/admins.json', 'r') as adminData:
     
 adictos_a_croissants = "./data/subscribers.json"
 
+global num_crrr
+# User tracking
+global adictos_en_tramite
+adictos_en_tramite = {}
+
 
 
 def isAdmin_fromPrivate(message):
@@ -28,22 +33,24 @@ def isAdmin_fromPrivate(message):
             return True
         return False
 
+
+def notificarAdictos():
+  with open(adictos_a_croissants, "r+") as subscribersRaw:
+      subscribers_list = json.load(subscribersRaw)
+  [replyToQuestion(adict) for adict in subscribers_list]  
+  return
+
+
 def replyToQuestion(adict):
   markup = types.ReplyKeyboardMarkup()
   markup.one_time_keyboard = True
   markup.row('¡SÍ!')
   markup.row('¡NO, PESADA!')
+  adictos_en_tramite[adict] = 1 # El adicto ha progresado al nivel 1
+  print (adictos_en_tramite)
+  print (adictos_en_tramite.keys())
   bot.send_message(adict, "¿Croissant?", reply_markup=markup)
   
-
-
-      
-def notificarAdictos():
-  with open(adictos_a_croissants, "r+") as subscribersRaw:
-      subscribers_list = json.load(subscribersRaw)
-  [replyToQuestion(adict) for adict in subscribers_list]
-  
-  return
 
 
 ### cosas de comandos
@@ -104,6 +111,8 @@ def send_goodbye(message):
 @bot.message_handler(commands=['croissant'])
 def croissant_notif(message):
     if isAdmin_fromPrivate(message):
+      adictos_en_tramite = {}
+      num_crrr = 0
       bot.reply_to(message,
                    "Lanzando ofrecimiento de dulce felicidad en forma de Croissant Supremo...")
       
@@ -111,6 +120,46 @@ def croissant_notif(message):
     else:
       bot.reply_to(message, "No intentes suplantar al proveedor de Croissants")
 
+##### RESPUESTA NIVEL 1
+@bot.message_handler(func=lambda message: str(message.from_user.id) in adictos_en_tramite.keys() and adictos_en_tramite[str(message.from_user.id)] == 1)
+# @bot.message_handler(func=lambda message: adictos_en_tramite[message.from_user.id] == 1)
+def respuesta_niv1(message):
+  respuesta = message.text
+  adictL1 = str(message.from_user.id)
+  if (respuesta == '¡SÍ!'):
+    markup2 = types.ReplyKeyboardMarkup()
+    markup2.one_time_keyboard = True
+    markup2.row('1')
+    markup2.row('2')
+    markup2.row('MUCHOS MÁS')
+    adictos_en_tramite[adictL1] = 2 # El adicto ha progresado al nivel 2
+    bot.send_message(adictL1, "¿Cuántos?", reply_markup=markup2)
+  else:
+    adictos_en_tramite.pop(adictL1)
+    bot.send_message(adict, ":(")
+  
+
+@bot.message_handler(func=lambda message: str(message.from_user.id) in adictos_en_tramite.keys() and adictos_en_tramite[str(message.from_user.id)] == 2)
+# @bot.message_handler(func=lambda message: adictos_en_tramite[message.from_user.id] == 1)
+def respuesta_niv2(message):
+  respuesta = message.text
+  adictL2 = str(message.from_user.id)
+  if (respuesta == '1'):
+    num_crrr = num_crrr + 1
+    bot.send_message(64219832, "Número de coissants ha ascendido a..." + num_crrr)
+  elif (respuesta == '2'):
+    num_crrr = num_crrr + 2
+    bot.send_message(64219832, "Número de coissants ha ascendido a..." + num_crrr)
+    bot.send_message(adict, ":(")
+  elif (respuesta == 'MUCHOS MÁS'):
+    bot.send_message(adictL2, "Mejor ponte en contacto con @palome directamente")
+  adictos_en_tramite.pop(adictL2)
+
+
+# users_tracked.pop(uid)      
+
+
+### AVISAR COMPRADO
 
 
 print("Running....")
