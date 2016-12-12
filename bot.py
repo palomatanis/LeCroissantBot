@@ -5,10 +5,10 @@ import os
 import sys
 # import os.path as path
 
-# activated = true
+
+## Descripción: Este bot te introducirá en la lista de amantes de Croissants y te notificará cada tanto para tener la oportunidad de recibir uno en la FI por la mañana.
 
 # Abrir cosas
-
 with open("./bot.token", "r") as token:
   bot = telebot.TeleBot(token.readline().strip()) # Strip elimina mierda que se pueda colar en el token 
 
@@ -16,11 +16,9 @@ with open("./bot.token", "r") as token:
 with open('./data/admins.json', 'r') as adminData:
     admins = json.load(adminData)
 
-
     
 adictos_a_croissants = "./data/subscribers.json"
 # historico = "./data/historico.json"
-
 
  # Lista en texto para admin
 global lista_compra
@@ -97,7 +95,7 @@ def send_subscr(message):
     with open(adictos_a_croissants, "w") as subscribers:
       subscribers.write(json.dumps([str(message.from_user.id)]))
       subscribers.close()
-      bot.send_message(6419832, "Se ha unido " +  + message.from_user.first_name + "!")
+      # bot.send_message(6419832, "Se ha unido " +  + message.from_user.first_name + "!")
       bot.send_message(message.chat.id, "Has sido añadido a la lista de suscriptores a noticias sobre croissants. ¡Enhorabuena!")
   else:
     with open(adictos_a_croissants, "r+") as subscribersRaw:
