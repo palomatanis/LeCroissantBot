@@ -7,6 +7,9 @@ import sys
 
 # activated = true
 
+
+## Descripción: Este bot te introducirá en la lista de amantes de Croissants y te notificará cada tanto para tener la oportunidad de recibir uno en la FI por la mañana.
+
 # Abrir cosas
 
 with open("./bot.token", "r") as token:
