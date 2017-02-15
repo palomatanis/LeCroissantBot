@@ -13,12 +13,12 @@ with open("./bot.token", "r") as token:
   bot = telebot.TeleBot(token.readline().strip()) # Strip elimina mierda que se pueda colar en el token 
 
 
-with open('./data/admins.json', 'r') as adminData:
+ with open('./data/admins.json', 'r') as adminData:
     admins = json.load(adminData)
 
     
 adictos_a_croissants = "./data/subscribers.json"
-# historico = "./data/historico.json"
+historico = "./data/historico.json"
 
  # Lista en texto para admin
 global lista_compra
@@ -30,7 +30,7 @@ adictos_en_lista_compra = []
 
 # User tracking
 global adictos_en_tramite
-adictos_en_tramite = {} 
+adict os_en_tramite = {} 
 
 # Suscriptores que aun no han contestado a la pregunta
 global adictos_no_contestados
@@ -152,6 +152,7 @@ def compra_notif(message):
     bot.reply_to(message, "No intentes suplantar al proveedor de Croissants")
 
       
+    markup2.row('MUCHOS MÁS')
 @bot.message_handler(commands=['reset'])
 def compra_notif(message):
   if isAdmin_fromPrivate(message):
@@ -174,7 +175,6 @@ def respuesta_niv1(message):
     markup2.one_time_keyboard = True
     markup2.row('1')
     markup2.row('2')
-    markup2.row('MUCHOS MÁS')
     adictos_en_tramite[adictL1] = 2 # El adicto ha progresado al nivel 2
     bot.send_message(adictL1, "¿Cuántos?", reply_markup=markup2)
   else:
@@ -199,11 +199,6 @@ def respuesta_niv2(message):
     lista_compra.append(str(message.from_user.first_name) + " 2")
     bot.send_message(6419832, "Lista de la compra:\n" + '\n'.join(lista_compra))
     bot.send_message(adictL2, "¡Apuntado!")
-  elif (respuesta == 'MUCHOS MÁS'):
-    adictos_en_lista_compra.append(adictL2)
-    lista_compra.append(str(message.from_user.first_name) + " ?")
-    bot.send_message(6419832, "Lista de la compra:\n" + '\n'.join(lista_compra))
-    bot.send_message(adictL2, "Mejor ponte en contacto con @palome directamente")
   adictos_en_tramite.pop(adictL2)
 
                 
