@@ -10,7 +10,7 @@ import sqlite3
 ## Descripción: Este bot te introducirá en la lista de amantes de Croissants y te notificará cada tanto para tener la oportunidad de recibir uno en la FI por la mañana.
 
 # Base de datos
-adictos_a_croissants = sqlite3.connect('./data/subscribersDB', check_same_thread=False)
+adictos_a_croissants = sqlite3.connect('./data/subscribersDB.db', check_same_thread=False)
 
 
 # cursorAdictos = adictos_a_croissants.cursor()
@@ -89,22 +89,36 @@ def send_welcome(message):
 def send_help(message):
   bot.send_message(message.chat.id, "Hola!\n Los comandos que puedes usar son:\n/help\n/subscribe\n/horario\n/unsubscribe")
 
-
   
 @bot.message_handler(commands=['subscribe'])
 def send_subscr(message):
   cursorAdictos = adictos_a_croissants.cursor()
-  oldSub = cursorAdictos.execute('''SELECT name FROM users WHERE id=?''', (message.from_user.id, ))
+  cursorAdictos.execute('''SELECT name FROM users WHERE id=?''', (message.from_user.id, ))
+  oldSub = cursorAdictos.fetchall()
 
-  if oldSub:
-    bot.send_message(message.chat.id, "Pero si ya estás en la lista, ¡Caesa!")
-  else:
+  if not oldSub:
     cursorAdictos.execute('''INSERT INTO users(id, name, numCroissants)
-                  VALUES(?,?,?)''', (message.chat.id, message.chat.first_name, '0'))
+                  VALUES(?,?,?)''', (message.from_user.id, message.chat.first_name, '0'))
     adictos_a_croissants.commit()
     bot.send_message(6419832, "Se ha unido " + message.from_user.first_name + " a la lista de adictos!")
     bot.send_message(message.chat.id, "Has sido añadido a la lista de suscriptores a noticias sobre croissants. ¡Enhorabuena!")   
+  else:
+    bot.send_message(message.chat.id, "Pero si ya estás en la lista, ¡Caesa!")
+
     
+# Ya se verá si se implementa esto algún día, por ahora supongo que nadie querrá salir de la lista nunca.    
+@bot.message_handler(commands=['unsubscribe'])
+def send_goodbye(message):
+  cursorAdictos = adictos_a_croissants.cursor()
+  
+  cursorAdictos.execute('''SELECT name FROM users WHERE id=?''', (message.from_user.id, ))
+  oldSub = cursorAdictos.fetchall()
+  
+  if not oldSub:
+    bot.send_message(message.chat.id, "Pero si aun no estás suscrito, ¡Caesa!\n)")
+  else:        
+    cursorAdictos.execute('''DELETE FROM users WHERE id = ? ''', (message.from_user.id, ))    
+    bot.send_message(message.chat.id, "¡Los croissants no te echarán de menos!\n")
        
 
 # Esto aun no sirve de nada pero me gusta el nombre
@@ -117,18 +131,6 @@ def send_msssg(message):
 @bot.message_handler(commands=['horario'])
 def horarios(message):
     bot.send_message(message.chat.id, "Horario de la Panadería:\nLunes - Viernes: 07:30 - 21:30\nSábados: 09:00 - 16:00\nDomingos y festivos: 09:00 - 21:00")
-
-  
-# Ya se verá si se implementa esto algún día, por ahora supongo que nadie querrá salir de la lista nunca.    
-@bot.message_handler(commands=['unsubscribe'])
-def send_goodbye(message):
-  cursorAdictos = adictos_a_croissants.cursor()
-  oldSub = cursorAdictos.execute('''SELECT name FROM users WHERE id=?''', (message.from_user.id, ))
-  if oldSub:
-    cursorAdictos.execute('''DELETE FROM users WHERE id = ? ''', (message.from_user.id))    
-    bot.send_message(message.chat.id, "Los croissants no te echarán de menos\n)")
-  else:
-    bot.send_message(message.chat.id, "Pero si aun no estás suscrito, ¡Caesa!\n)")
 
 
 # Cuando un admin va a ir a la Panadería, esto notifica a todos los suscriptores.
