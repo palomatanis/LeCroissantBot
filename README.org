@@ -22,6 +22,9 @@ If you don't, get it form @BotFather
 (this is the most important step)
 
 
+
+* Clean the databases! 
+
 * In order to run it
 
 Clone this repo
