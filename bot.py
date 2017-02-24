@@ -29,9 +29,6 @@ proveedores_de_felicidad = sqlite3.connect('./data/providersDB.db', check_same_t
 with open("./bot.token", "r") as token:
   bot = telebot.TeleBot(token.readline().strip()) # Strip elimina mierda que se pueda colar en el token 
 
-# with open('./data/admins.json', 'r') as adminData:
-#     admins = json.load(adminData)
-    
  # Lista en texto para admin
 global lista_compra
 lista_compra = []
@@ -94,7 +91,7 @@ def send_welcome(message):
 # Lista de comandos      
 @bot.message_handler(commands=['help'])
 def send_help(message):
-  bot.send_message(message.chat.id, "Hola!\n Los comandos que puedes usar son:\n/help\n/subscribe\n/horario\n/unsubscribe")
+  bot.send_message(message.chat.id, "Hola!\n Los comandos que puedes usar son:\n/help\n/subscribe\n/horario\n/unsubscribe\n/historico")
 
   
 @bot.message_handler(commands=['subscribe'])
@@ -152,7 +149,7 @@ def croissant_notif(message):
     else:
       bot.reply_to(message, "No intentes suplantar al proveedor de Croissants")
 
-      
+# Cuando la compra está hecha, permite al administrador avisar a los adictos que sus croissants están de camino o que es demasiado tarde para pedirlos   
 @bot.message_handler(commands=['compra'])
 def compra_notif(message):
   if isAdmin_fromPrivate(message):
@@ -160,6 +157,8 @@ def compra_notif(message):
     bot.reply_to(message, "Avisando de compra.... \nRecomendado /reset")
   else:
     bot.reply_to(message, "No intentes suplantar al proveedor de Croissants")
+
+# Reinnicia las listas
 @bot.message_handler(commands=['reset'])
 def compra_notif(message):
   if isAdmin_fromPrivate(message):
@@ -168,6 +167,19 @@ def compra_notif(message):
   else:
     bot.reply_to(message, "No intentes suplantar al proveedor de Croissants")
 
+@bot.message_handler(commands=['historico'])
+def historial(message):
+  cursorAdictos = adictos_a_croissants.cursor()
+  cont = 1
+  texto = []
+  texto.append("Ésta es la lista de los mayores adictos a Croissants de todos los tiempos\n")
+  for row in cursorAdictos.execute('''SELECT name, numCroissants FROM users ORDER BY numCroissants DESC'''):
+    if(cont < 6):
+      texto.append("- El número " + str(cont) + " es " + row[0] + ", con " + str(row[1]) + " Croissants")
+      cont = cont +1
+
+  texto.append("\n¡Si compras suficientes Croissants podrás tener el honor de poder estar tú mismo en esta lista de afortunados!")
+  bot.reply_to(message, '\n'.join(texto))
   
 ##### RESPUESTA NIVEL 1
 @bot.message_handler(func=lambda message: str(message.from_user.id) in adictos_en_tramite.keys() and adictos_en_tramite[str(message.from_user.id)] == 1)
@@ -193,8 +205,8 @@ def respuesta_niv1(message):
 def respuesta_niv2(message):
   respuesta = message.text
   adictL2 = str(message.from_user.id)
-  cursorAdictos = adictos_a_croissants.cursor()
   adictos_en_lista_compra.append(adictL2)
+  cursorAdictos = adictos_a_croissants.cursor()
   consumidos = cursorAdictos.execute('''SELECT numCroissants FROM users WHERE id=?''', (message.from_user.id, ))
   consum = consumidos.fetchone()
 
@@ -211,8 +223,6 @@ def respuesta_niv2(message):
   cursorAdictos.execute('''UPDATE users set numCroissants=? WHERE id=?''', (numC, message.from_user.id))
   adictos_a_croissants.commit()
   adictos_en_tramite.pop(adictL2)
-
-
 
 # db.close() ????
 
