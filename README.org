@@ -24,13 +24,20 @@ If you don't, get it form @BotFather
 
 * In order to run it
 
-Just open a terminal, go to this folder and:
+Clone this repo
+
+: git clone https://github.com/palomatanis/LeCroissantBot.git
+
+Get into the folder you cloned, then:
 
 : ./run.sh
 
 And voilá!!!
 
-It will run the python script and rerun it if it dies.\n
+(you should also probably have your computer's ssh key associated to github)
+
+It will run the python script and rerun it if it dies.
+
 When it does this, it will pull form your repo. This way, if you want to change something in the bot, you just need to push the changes to your repo, do = /reset = from telegram (if you are an admin (see bot.py). This will kill the bot, and the script with run it again, pulling from git before executing the python script!
 
 
