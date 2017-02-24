@@ -117,9 +117,9 @@ def send_goodbye(message):
   if not oldSub:
     bot.send_message(message.chat.id, "Pero si aun no estás suscrito, ¡Caesa!\n)")
   else:        
-    cursorAdictos.execute('''DELETE FROM users WHERE id = ? ''', (message.from_user.id, ))    
+    cursorAdictos.execute('''DELETE FROM users WHERE id=? ''', (message.from_user.id, ))    
     bot.send_message(message.chat.id, "¡Los croissants no te echarán de menos!\n")
-       
+    adictos_a_croissants.commit()  
 
 # Esto aun no sirve de nada pero me gusta el nombre
 @bot.message_handler(commands=['croissantDay'])
