@@ -38,7 +38,7 @@ And voilá!!!
 
 It will run the python script and rerun it if it dies.
 
-When it does this, it will pull form your repo. This way, if you want to change something in the bot, you just need to push the changes to your repo, do = /reset = from telegram (if you are an admin (see bot.py). This will kill the bot, and the script with run it again, pulling from git before executing the python script!
+When it does this, it will pull form your repo. This way, if you want to change something in the bot, you just need to push the changes to your repo, do =/reset= from telegram (if you are an admin (see bot.py). This will kill the bot, and the script with run it again, pulling from git before executing the python script!
 
 
 * Special thanks
