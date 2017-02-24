@@ -1,1 +1,41 @@
 This bot's purpose is to help people getting organized when buying large groups of croissants.
+
+* Before running it you need
+
+** Install
+
+Python3
+pip 3
+
+** Install the API
+
+$ git clone https://github.com/eternnoir/pyTelegramBotAPI.git
+$ cd pyTelegramBotApi
+$ python3 setup.py install
+
+** Have a token!! 
+
+If you don't, get it form @BotFather
+
+
+** Feel the love for the Croissants!!
+(this is the most important step)
+
+
+* In order to run it
+
+Just execute
+
+: ./run.sh
+
+And voilá!!!
+
+It will run the python script and rerun it if it dies.
+When it does this, it will pull form your repo. This way, if you want to change something if the bot, you just need to do = /reset = from telegram (if you are an admin (see bot.py). This will kill the bot, and the script with run it again, pulling from git before executing the python script!
+
+
+* Special thanks
+
+To https://github.com/Ironjanowar
+
+:)
