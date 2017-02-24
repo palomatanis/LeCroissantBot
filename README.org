@@ -4,14 +4,14 @@ This bot's purpose is to help people getting organized when buying large groups 
 
 ** Install
 
-Python3
-pip 3
+- Python3
+- pip 3
 
 ** Install the API
 
-$ git clone https://github.com/eternnoir/pyTelegramBotAPI.git
-$ cd pyTelegramBotApi
-$ python3 setup.py install
+: $ git clone https://github.com/eternnoir/pyTelegramBotAPI.git
+: $ cd pyTelegramBotApi
+: $ python3 setup.py install
 
 ** Have a token!! 
 
@@ -24,7 +24,7 @@ If you don't, get it form @BotFather
 
 * In order to run it
 
-Just execute
+Just open a terminal, go to this folder and:
 
 : ./run.sh
 
