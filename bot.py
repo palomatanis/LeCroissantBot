@@ -134,7 +134,7 @@ def send_msssg(message):
 
 
 # Horario de la panadería
-@bot.message_handler(commands=['horario'])
+@bot.message_handler(commands=['opening'])
 def horarios(message):
     bot.send_message(message.chat.id, "Horario de la Panadería:\nLunes - Viernes: 07:30 - 21:30\nSábados: 09:00 - 16:00\nDomingos y festivos: 09:00 - 21:00")
 
@@ -150,7 +150,7 @@ def croissant_notif(message):
       bot.reply_to(message, "No intentes suplantar al proveedor de Croissants")
 
 # Cuando la compra está hecha, permite al administrador avisar a los adictos que sus croissants están de camino o que es demasiado tarde para pedirlos   
-@bot.message_handler(commands=['compra'])
+@bot.message_handler(commands=['bought'])
 def compra_notif(message):
   if isAdmin_fromPrivate(message):
     notificarAdictosCompra()
@@ -167,7 +167,7 @@ def compra_notif(message):
   else:
     bot.reply_to(message, "No intentes suplantar al proveedor de Croissants")
 
-@bot.message_handler(commands=['historico'])
+@bot.message_handler(commands=['history'])
 def historial(message):
   cursorAdictos = adictos_a_croissants.cursor()
   cont = 1

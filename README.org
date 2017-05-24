@@ -1,10 +1,58 @@
-This bot's purpose is to help people getting organized when buying large groups of croissants.
+This bot's purpose is to help people getting organized when buying large groups of croissants. If you want to use it for this same purpose (or tweak it and use it for other delicious foods), these are the basic steps:
 
-* Before running it you need to
+* How did this bot come to life?
+I happen to live in a beautiful neighbourhood, and next to my house,
+there is a Bakery. Not just any bakery. We are talking about a place
+where you can buy the best Croissants in the world.\\
+ You may not believe this, but it's only because you have not tried
+these beautiful, buttery, golden, delicious Croissants. Very aware of
+the magical properties of this pastry, I once gave some to my friends
+who had come to my house in order to study for an important test, as
+they were in urgent need of some happiness. \\
+Of course, they were flabbergasted upon tating them, and soon after I
+was hearing from all my friends and acquaintances, all wanting to
+enjoy the same experience. \\
+I started bringing Croissants to university in the morning a couple
+times a week. I would ask via Telegram in a group or two and tried to
+keep up with each person who wanted a Croissant. Soon this proved to
+be a rather unpleasant task, and I would often find that I had
+forgotten someone. As this was unacceptable, I decided to solve this
+by creating a bot dedicated to this task.
 
+* How does the bot work?
+On one side, each person who is interested in getting a Croissant from
+me occasionaly, can receive Croissant updates by subscribing to the
+list in the bot:
+: \start
+: \subscribe
+When decide I'm going to go to the Bakery, I (or any admin in
+providers.db) just have to:
+: \croissants
+After this, each subscriber will receive a message asking if they
+would like to receive a Croissant in university that morning, to which
+they can answer yes, 1 croissant, or 2, or none (which is rare).
+As soon as I decide to go and buy the Croissants, I (or an admin) do
+: \bought 
+Which will alert each addict (erm, sorry, person) who accepted the
+offer that croissants are on their way, and those who haven't answered
+are notified that it is now too late for them to do so.
+Apart from that, it is possible to unsubscribe from the list
+: \unsubscribe
+
+There is also a command to see the top buyers of Croissants of all
+times by just
+: \history
+
+And of course the opening hours of the Bakery
+: \opening
+
+
+
+* Before being able to run this bot, you will have to
 ** Install
 
 - Python3
+- Sqlite
 - pip 3
 
 ** Install the API
@@ -13,17 +61,12 @@ This bot's purpose is to help people getting organized when buying large groups 
 : $ cd pyTelegramBotApi
 : $ python3 setup.py install
 
-** Have a token!! 
+** Have a token 
 
-If you don't, get it form @BotFather
-
+Or get it from @BotFather
 
 ** Feel the love for the Croissants!!
 (this is the most important step)
-
-
-
-* Clean the databases! 
 
 * In order to run it
 
@@ -31,19 +74,26 @@ Clone this repo
 
 : git clone https://github.com/palomatanis/LeCroissantBot.git
 
-Get into the folder you cloned, then:
+Put the bot's admin(s) telegram ID in data/providers.db
+Go to the folder you cloned, then:
 
 : ./run.sh
 
-And voilá!!!
+And voilá!
 
-(you should also probably have your computer's ssh key associated to github)
+(You have to be able to sync with gitHub via ssh)
 
-It will run the python script and rerun it if it dies.
+The script will pull from your repo before running the bot. This way,
+if you want to change some code, you just need to push the changes to
+your repo, do =/reset= from the bot in telegram (if you are an admin).
+This will kill the bot, and the script will pull from git before
+running the bot again!
 
-When it does this, it will pull form your repo. This way, if you want to change something in the bot, you just need to push the changes to your repo, do =/reset= from telegram (if you are an admin (see bot.py). This will kill the bot, and the script with run it again, pulling from git before executing the python script!
+It will pull and then run the bot each time the bot dies.
 
-
+* And clean the databases! 
+Get your own suscriptors :D
+(mine only want my Croissants and are not interested in any other form of alimentation)
 * Special thanks
 
 To https://github.com/Ironjanowar
