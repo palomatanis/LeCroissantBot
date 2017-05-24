@@ -1,7 +1,7 @@
 #! /bin/bash
 
 while true; do
-    git pull origin master
-    python3 bot.py
+    git -C /home/paloma/LeCroissantBot pull origin master
+    python3 /home/paloma/LeCroissantBot/bot.py
     sleep 1
 done

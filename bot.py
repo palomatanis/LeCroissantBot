@@ -8,8 +8,8 @@ import sqlite3
 ## Descripción: Este bot te introducirá en la lista de amantes de Croissants y te notificará cada tanto para tener la oportunidad de recibir uno en la FI por la mañana.
 
 # Base de datos
-adictos_a_croissants = sqlite3.connect('./data/subscribersDB.db', check_same_thread=False)
-proveedores_de_felicidad = sqlite3.connect('./data/providersDB.db', check_same_thread=False)
+adictos_a_croissants = sqlite3.connect('/home/paloma/LeCroissantBot/data/subscribersDB.db', check_same_thread=False)
+proveedores_de_felicidad = sqlite3.connect('/home/paloma/LeCroissantBot/data/providersDB.db', check_same_thread=False)
 
 # cursorAdictos = adictos_a_croissants.cursor()
 # cursorAdictos.execute('''
@@ -26,7 +26,7 @@ proveedores_de_felicidad = sqlite3.connect('./data/providersDB.db', check_same_t
 
 
 # Abrir cosas
-with open("./bot.token", "r") as token:
+with open("/home/paloma/LeCroissantBot/bot.token", "r") as token:
   bot = telebot.TeleBot(token.readline().strip()) # Strip elimina mierda que se pueda colar en el token 
 
  # Lista en texto para admin
