@@ -95,7 +95,7 @@ It will pull and then run the bot each time the bot dies.
 
 * And clean the databases! 
 Get your own suscriptors :D
-(mine only want my Croissants and are not interested in any other form of alimentation)
+(mine only want my Croissants and are not interested in any other form of energy source)
 * Special thanks
 
 To https://github.com/Ironjanowar
